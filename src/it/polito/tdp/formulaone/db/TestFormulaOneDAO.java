@@ -11,7 +11,9 @@ public class TestFormulaOneDAO {
 		FormulaOneDAO dao = new FormulaOneDAO();
 
 		List<Season> seasons = dao.getAllSeasons();
-		System.out.println(seasons);
+		//System.out.println(seasons);
+		System.out.println(dao.getAllRace(2003).size()+"\n");
+		System.out.println(dao.getArchi(2003).size());
 
 	}
 

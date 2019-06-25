@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.formulaone.model.Model;
+import it.polito.tdp.formulaone.model.Season;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,13 +23,13 @@ public class FormulaOneController {
     private URL location;
 
     @FXML // fx:id="boxAnno"
-    private ComboBox<?> boxAnno; // Value injected by FXMLLoader
+    private ComboBox<Season> boxAnno; // Value injected by FXMLLoader
 
     @FXML // fx:id="btnSelezionaStagione"
     private Button btnSelezionaStagione; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxGara"
-    private ComboBox<?> boxGara; // Value injected by FXMLLoader
+    private ComboBox<Season> boxGara; // Value injected by FXMLLoader
 
     @FXML // fx:id="btnSimulaGara"
     private Button btnSimulaGara; // Value injected by FXMLLoader
@@ -44,7 +45,16 @@ public class FormulaOneController {
 
     @FXML
     void doSelezionaStagione(ActionEvent event) {
+    	if(boxAnno.getValue()==null) {
     	txtResult.setText("btn Seleziona stagione premuto");
+    	return;
+    	}
+    	
+    	Season s=boxAnno.getValue();
+    	model.creaGrafo(s);
+    	txtResult.appendText("\nCreato grafo con "+model.getGrafo().vertexSet().size()+" vertici e archi: "+model.getGrafo().edgeSet().size());
+    	txtResult.appendText("\nL'aerco con peso massimo è: "+model.cercaArcoPesoMassimo());
+    	
     }
 
     @FXML
@@ -65,6 +75,8 @@ public class FormulaOneController {
 
 	public void setModel(Model model) {
 		this.model = model;
+		boxAnno.getItems().addAll(model.getSeason());
+		
 		
 	}
 }
